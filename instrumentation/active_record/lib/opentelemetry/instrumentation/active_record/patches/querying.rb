@@ -24,6 +24,12 @@ module OpenTelemetry
               end
             end
 
+            def _query_by_sql(sql, binds = [], preparable: nil, async: false)
+              tracer.in_span("#{self}._query_by_sql") do
+                super
+              end
+            end
+
             private
 
             def tracer

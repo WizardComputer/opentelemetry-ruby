@@ -178,6 +178,7 @@ module OpenTelemetry
           when 'jaeger' then fetch_exporter(exporter, 'OpenTelemetry::Exporter::Jaeger::CollectorExporter')
           when 'zipkin' then fetch_exporter(exporter, 'OpenTelemetry::Exporter::Zipkin::Exporter')
           when 'console' then Trace::Export::SimpleSpanProcessor.new(Trace::Export::ConsoleSpanExporter.new)
+          when 'rails' then Trace::Export::SimpleSpanProcessor.new(Trace::Export::RailsExporter.new)
           else
             OpenTelemetry.logger.warn "The #{exporter} exporter is unknown and cannot be configured, spans will not be exported"
             nil
