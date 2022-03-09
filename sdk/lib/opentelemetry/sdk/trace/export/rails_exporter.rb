@@ -40,6 +40,7 @@ module OpenTelemetry
           private
 
           def format_output(span)
+            return "" if repeat?(span)
             @span = span
             if span.name.match("^HTTP") || span.name.include?("Controller")
               return ""
@@ -48,6 +49,14 @@ module OpenTelemetry
           end
 
           private
+
+          def repeat?(span)
+            return false if span.name.match("action_view")
+            if span.name.match("sql")
+              return @span&.name&.split(".")&.first == span.name&.split(".")&.first
+            end
+            @span&.name == span&.name
+          end
 
           def name
             if @span.attributes["identifier"]
@@ -74,7 +83,7 @@ module OpenTelemetry
           end
 
           def parent_span_id
-             @span.parent_span_id.unpack1('H*')
+            @span.parent_span_id.unpack1('H*')
           end
         end
       end

@@ -56,6 +56,7 @@ module OpenTelemetry
           ::ActiveRecord::Base.prepend(Patches::TransactionsClassMethods)
           ::ActiveRecord::Base.prepend(Patches::Validations)
 
+          ::ActiveRecord::Relation.prepend(Patches::Calculations)
           ::ActiveRecord::Relation.prepend(Patches::RelationPersistence)
         end
 
@@ -67,6 +68,7 @@ module OpenTelemetry
           require_relative 'patches/persistence_insert_class_methods' if insert_class_methods_supported?
           require_relative 'patches/transactions_class_methods'
           require_relative 'patches/validations'
+          require_relative 'patches/calculations'
           require_relative 'patches/relation_persistence'
         end
       end
